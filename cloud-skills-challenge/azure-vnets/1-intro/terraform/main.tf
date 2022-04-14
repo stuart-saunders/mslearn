@@ -4,7 +4,7 @@ resource "azurerm_resource_group" "this" {
 }
 
 module "database_vm" {
-  for_each = toset(var.database_vm)
+  for_each = var.database_vm
 
   source  = "./modules/win-vm"
   vm_name = each.value
@@ -16,7 +16,7 @@ module "database_vm" {
 }
 
 module "manufacturing_system_vm" {
-  for_each = toset(var.manufacturing_system_vm)
+  for_each = var.manufacturing_system_vm
 
   source  = "./modules/win-vm"
   vm_name = each.value

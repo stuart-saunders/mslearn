@@ -4,6 +4,12 @@ variable "resource_name_prefix" {
   default     = "vnet-csc-1"
 }
 
+variable "location" {
+  type        = string
+  description = "The resource location"
+  default     = "UK South"
+}
+
 # VM
 variable "database_vm" {
   type        = set(string)

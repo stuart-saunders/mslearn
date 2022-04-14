@@ -1,6 +1,6 @@
 resource "azurerm_resource_group" "this" {
-  name     = "vnet-csc-1-rg"
-  location = "UK South"
+  name     = "${var.resource_name_prefix}-rg"
+  location = var.location
 }
 
 module "database_vm" {

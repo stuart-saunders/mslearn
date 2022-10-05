@@ -3,26 +3,14 @@ resource "azurerm_resource_group" "this" {
   location = var.location
 }
 
-module "database_vm" {
-  for_each = var.database_vm
+module "vm" {
+  for_each = local.vms
 
   source  = "./modules/win-vm"
-  vm_name = each.value
+  vm_name = "${each.key}"
 
   ip_configuration_name = "internal"
-  subnet_id             = data.azurerm_subnet.database.id
-  location              = azurerm_resource_group.this.location
-  resource_group_name   = azurerm_resource_group.this.name
-}
-
-module "manufacturing_system_vm" {
-  for_each = var.manufacturing_system_vm
-
-  source  = "./modules/win-vm"
-  vm_name = each.value
-
-  ip_configuration_name = "internal"
-  subnet_id             = data.azurerm_subnet.manufacturing_system.id
-  location              = azurerm_resource_group.this.location
+  subnet_id             = azurerm_subnet.this["${each.value.vnet_key}-${each.value.subnet_key}"].id  
+  location              = each.value.location
   resource_group_name   = azurerm_resource_group.this.name
 }
